@@ -841,8 +841,7 @@ function 批量替换域名(内容, host, 每组数量 = 2) {
 }
 
 async function 读取config_JSON(env, hostname, userID, 重置配置 = false) {
-    //const host = 随机替换通配符(hostname);
-    const host = "portal-as.ruijienetworks.com";
+    const host = 随机替换通配符(hostname);
     const 初始化开始时间 = performance.now();
     const 默认配置JSON = {
         TIME: new Date().toISOString(),
