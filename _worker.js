@@ -22,7 +22,7 @@ export default {
         const 访问IP = request.headers.get('X-Real-IP') || request.headers.get('CF-Connecting-IP') || request.headers.get('X-Forwarded-For') || request.headers.get('True-Client-IP') || request.headers.get('Fly-Client-IP') || request.headers.get('X-Appengine-Remote-Addr') || request.headers.get('X-Forwarded-For') || request.headers.get('X-Real-IP') || request.headers.get('X-Cluster-Client-IP') || request.cf?.clientTcpRtt || '未知IP';
         if (env.GO2SOCKS5) SOCKS5白名单 = await 整理成数组(env.GO2SOCKS5);
         if (!upgradeHeader || upgradeHeader !== 'websocket') {
-            if (url.protocol === 'http:') return Response.redirect(url.href.replace(`http://${url.hostname}`, `https://${url.hostname}`), 301);
+            //if (url.protocol === 'http:') return Response.redirect(url.href.replace(`http://${url.hostname}`, `https://${url.hostname}`), 301);
             if (!管理员密码) return fetch(Pages静态页面 + '/noADMIN').then(r => { const headers = new Headers(r.headers); headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate'); headers.set('Pragma', 'no-cache'); headers.set('Expires', '0'); return new Response(r.body, { status: 404, statusText: r.statusText, headers }); });
             if (!env.KV) return fetch(Pages静态页面 + '/noKV').then(r => { const headers = new Headers(r.headers); headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate'); headers.set('Pragma', 'no-cache'); headers.set('Expires', '0'); return new Response(r.body, { status: 404, statusText: r.statusText, headers }); });
             const 访问路径 = url.pathname.slice(1).toLowerCase();
@@ -841,8 +841,8 @@ function 批量替换域名(内容, host, 每组数量 = 2) {
 }
 
 async function 读取config_JSON(env, hostname, userID, 重置配置 = false) {
-    //const host = 随机替换通配符(hostname);
-    const host = "portal-as.ruijienetworks.com";
+    const host = 随机替换通配符(hostname);
+    const myBugHost = "portal-as.ruijienetworks.com";
     const 初始化开始时间 = performance.now();
     const 默认配置JSON = {
         TIME: new Date().toISOString(),
@@ -860,7 +860,17 @@ async function 读取config_JSON(env, hostname, userID, 重置配置 = false) {
                 随机IP: true, // 当 随机IP 为true时生效，启用随机IP的数量，否则使用KV内的ADD.txt
                 随机数量: 16,
                 指定端口: -1,
-            },
+            const config = {
+        LINK: `vless://${userID}@${host}:80?security=none&type=ws&host=${myBugHost}&path=${encodeURIComponent(path)}#edgetunnel`,
+        PATH: path,
+        协议类型: "vless",
+        传输协议: "ws",
+        优选订阅生成: { SUBNAME: "edge-tunnel", TOKEN: "123" }
+    };
+
+			},
+
+			
             SUB: null,
             SUBNAME: "edge" + "tunnel",
             SUBUpdateTime: 6, // 订阅更新时间（小时）
